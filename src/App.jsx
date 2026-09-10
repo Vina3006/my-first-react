@@ -1,86 +1,71 @@
 import { useState } from "react";
-import StudentInfo from "./studentInfo";
 
 function App() {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [course, setCourse] = useState("");
-  const [submitted, setSubmitted] = useState(false);
+  const [search, setSearch] = useState("");
 
-  function handleSubmit(event) {
-    event.preventDefault();
-    if (!name || !email || !course) {
-      alert("Please fill in all fields.");
-      return;
+  const students = [
+    {
+      id: 1,
+      name: "Vina",
+      course: "BCA",
+      year: 3
+    },
+    {
+      id: 2,
+      name: "Rahul",
+      course: "BBA",
+      year: 2
+    },
+    {
+      id: 3,
+      name: "Priya",
+      course: "BCA",
+      year: 3
+    },
+    {
+      id: 4,
+      name: "Amit",
+      course: "BCA",
+      year: 2
+    },
+    {
+      id: 5,
+      name: "Sneha",
+      course: "BBA",
+      year: 3
     }
-    setSubmitted(true);
-  }
+  ];
+
+  const filteredStudents = students.filter((student) =>
+    student.name.toLowerCase().includes(search.toLowerCase())
+  );
 
   return (
     <div>
-      <h1>Student Registration</h1>
+      <h1>Student search</h1>
 
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Name:</label>
-
-          <input
-            type="text"
-            value={name}
-            onChange={(event) => setName(event.target.value)}
-            placeholder="Enter your name"
-          />
-        </div>
-
-        <br />
-
-        <div>
-          <label>Email:</label>
-
-          <input
-            type="email"
-            value={email}
-            onChange={(event) => setEmail(event.target.value)}
-            placeholder="Enter your email"
-          />
-        </div>
-
-        <br />
-
-        <div>
-          <label>Course:</label>
-
-          <input
-            type="text"
-            value={course}
-            onChange={(event) => setCourse(event.target.value)}
-            placeholder="Enter your course"
-          />
-        </div>
-
-        <br />
-
-        <button type="submit">
-          Register
-        </button>
-      </form>
-
-      {submitted && (
-        <div>
-          <h2>Registration Successful!</h2>
-
-          <p>Name: {name}</p>
-          <p>Email: {email}</p>
-          <p>Course: {course}</p>
-        </div>
-      )}
-
-      <StudentInfo
-        name="Vina Shinde"
-        course="BCA"
-        year={3}
-        college="my college"
+      <input
+        type="text"
+        value={search}
+        onChange={(event) => setSearch(event.target.value)}
+        placeholder="Search student..."
       />
+
+      <h2>Students</h2>
+
+      {filteredStudents.length > 0 ? (
+        <div>
+          {filteredStudents.map((student) => (
+            <div key={student.id}>
+              <h3>{student.name}</h3>
+              <p>Course: {student.course}</p>
+              <p>Year: {student.year}</p>
+            </div>
+          ))}
+        </div>
+      ) : (
+        <p>No students found.</p>
+      )}
     </div>
   );
 }
