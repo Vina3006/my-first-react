@@ -1,24 +1,88 @@
-import StudentInfo from "./studentInfo";
 import { useState } from "react";
-function App() {
-  const [count, setCount] = useState(0);
-    
-   return (
-    <div>
-      <h1>My React learning profile</h1>
-      <StudentInfo 
-      name="Vina Shinde" 
-      course="BCA" 
-      year={3}
-      college="my college"
-       />
-       <h2>Counter:{count}</h2>
+import StudentInfo from "./studentInfo";
 
-       <button onClick={() => setCount(count + 1) }>Increment</button> <br  />
-       <button onClick={() => setCount(count - 1) }>Decrement</button> <br />
-       <button onClick={() => setCount(0) }>Reset</button>
+function App() {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [course, setCourse] = useState("");
+  const [submitted, setSubmitted] = useState(false);
+
+  function handleSubmit(event) {
+    event.preventDefault();
+    if (!name || !email || !course) {
+      alert("Please fill in all fields.");
+      return;
+    }
+    setSubmitted(true);
+  }
+
+  return (
+    <div>
+      <h1>Student Registration</h1>
+
+      <form onSubmit={handleSubmit}>
+        <div>
+          <label>Name:</label>
+
+          <input
+            type="text"
+            value={name}
+            onChange={(event) => setName(event.target.value)}
+            placeholder="Enter your name"
+          />
+        </div>
+
+        <br />
+
+        <div>
+          <label>Email:</label>
+
+          <input
+            type="email"
+            value={email}
+            onChange={(event) => setEmail(event.target.value)}
+            placeholder="Enter your email"
+          />
+        </div>
+
+        <br />
+
+        <div>
+          <label>Course:</label>
+
+          <input
+            type="text"
+            value={course}
+            onChange={(event) => setCourse(event.target.value)}
+            placeholder="Enter your course"
+          />
+        </div>
+
+        <br />
+
+        <button type="submit">
+          Register
+        </button>
+      </form>
+
+      {submitted && (
+        <div>
+          <h2>Registration Successful!</h2>
+
+          <p>Name: {name}</p>
+          <p>Email: {email}</p>
+          <p>Course: {course}</p>
+        </div>
+      )}
+
+      <StudentInfo
+        name="Vina Shinde"
+        course="BCA"
+        year={3}
+        college="my college"
+      />
     </div>
   );
+}
 
-};
 export default App;
